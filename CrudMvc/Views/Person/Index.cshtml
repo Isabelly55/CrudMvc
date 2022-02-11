@@ -1,0 +1,86 @@
+﻿@model IEnumerable<CrudMvc.Models.Pessoa>
+
+@{
+    ViewData["Title"] = "Pagina Inicial";
+}
+
+@section scripts{
+    <script type="text/javascript">
+        $('[data-action="del"]').click(function (event) {
+            $('#staticBackdrop').modal('toggle');
+
+            $('#btnDel').attr('href', '/Person/Delete/' + event.target.dataset.id);
+        });
+    </script>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-secondary"> <i class="fas fa-plus"></i> Novo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary"><i class="far fa-edit"></i></a> |
+                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#staticBackdrop" data-action="del"
+                        data-id="@item.Id"><i class="fas fa-trash" data-id="@item.Id"></i></button>
+
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Confirmação de exclusão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente excluir o registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <a class="btn btn-primary" href="#" id="btnDel">Sim</a>
+            </div>
+        </div>
+    </div>
+</div>
